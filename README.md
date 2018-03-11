@@ -1,42 +1,29 @@
-# Overview
-This script checks your Google Music library for missing songs. At least for me, every few months I find songs missing from my library. It turns out that Google is constantly updating its catalog, and, in the process, removes older versions of songs from your library. However, it doesn't automatically add newer versions back to your library. This script creates a list of songs in your library on first run, and compares the original list and new list on subsequent runs to let you know which songs are missing.
+# gmusicchecker
 
-This script has been tested on Mac OS Sierra.
+This script checks your Google Play Music library for removed songs. Google is constantly updating its catalog and in the process removes older versions of songs from your library. However, it doesn't automatically add newer versions back to your library. This script creates a list of songs in your library on first run and compares the original list and new list on subsequent runs to let you know which songs have been removed.
 
-# Installation
-
-## Python
-
-Python 2 comes installed by default on Mac and needs to be updated to 3. To do so, headover to https://www.python.org/downloads/ and download the latest version. After you follow the instructions and install python, open up the terminal and type "python3." You should see something similar to this:
-
+Requires [gmusicapi](https://github.com/simon-weber/gmusicapi) which you can install with:
 ```
-Python 3.5.3 (v3.5.3:1880cb95a742, Jan 16 2017, 08:49:46)
-[GCC 4.2.1 (Apple Inc. build 5666) (dot 3)] on darwin
-Type "help", "copyright", "credits" or "license" for more information.
->>>
+pip3 install gmusicapi
 ```
 
-The >>> indicates you are in python. But we don't want to do that. We are going to perform our script outside of python and in the terminal itself, so type "exit()" to go back to terminal. 
+## Usage
 
-## Python modules
+Run the script with your Google username and password as command line arguments.
 
-The following modules are required:
-
-- pickle
-- gmusicapi
-
-To install both, type the following in terminal:
+You can either `git clone` this repo and run the script like so:
 
 ```
-  pip3 install pickle gmusicapi
+git clone https://github.com/cjbassi/gmusicchecker
+./path/to/script/gmusicchecker.py username password
 ```
 
-# Usage
-
-To use, open up terminal and type "python3" and drag the script file into the terminal, follow that with your username and password. For example, say the script is in your Downloads folder, and your username is Bob and password hunter2, your terminal should look like this:
+Or you can run the script once-off by curling it directly to the python interpreter:
 
 ```
-  python3 /Users/Bob/Downloads/gmusicchecker.py Bob hunter2
+python3 <(curl https://raw.githubusercontent.com/cjbassi/gmusicchecker/master/gmusicchecker.py) username password
 ```
 
-Press enter. The script will create a library.txt file on first run with a list of song names, albums, artist, and unique ID. On subsequent runs, the script will compare your current library to existing one in library.txt and list the missing songs as well as new songs added. This gives you a chance to re-add the missing songs manually in Google Music. Lastly, the script will ask if you want to update the library. This overwrites the original library.txt with the current one.
+If you have 2-factor authentication (which you should :P) then you need to create an app-password [here](myaccount.google.com/apppasswords).
+
+The script will create a `library.json` file on first run, which it will update with your current library. Subsequent runs will check for any removed songs which it will write to `removed_songs.txt` and then update `library.json` again.
