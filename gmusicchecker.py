@@ -19,11 +19,16 @@ def authenticate(username, password):
 
 
 def touch_file(name):
-    """Creates a file if it doesn't exist"""
+    """
+    Creates a file if it doesn't exist and returns a bool telling if the file
+    existed.
+    """
     if not os.path.exists(name):
         print(f'File \'{name}\' not found. Creating a new one.')
         with open(name, 'w'):
             pass
+        return False
+    return True
 
 
 def get_old_songs():
@@ -40,15 +45,25 @@ def get_new_songs(library):
 
 
 def compare(old, new):
-    """Compares old library with new library and prints the differences"""
+    """
+    Compares old library with new library and prints the differences.
+    Returns a bool telling if the songs are different.
+    """
+    changed = False
+
     print('Checking missing songs:')
     for song in old:
         if song not in new:
+            changed = True
             print('missing song: ' + song)
+
     print('-' * 10 + '\nChecking newly added songs:')
     for song in new:
         if song not in old:
+            changed = True
             print('new song added: ' + song)
+
+    return changed
 
 
 def update(new_songs):
@@ -65,20 +80,27 @@ def main():
     api = authenticate(username, password)
     library = api.get_all_songs()
 
-    touch_file('library.txt')
+    existed = touch_file('library.txt')
 
     old_songs = get_old_songs()
     new_songs = get_new_songs(library)
 
-    compare(old_songs, new_songs)
+    changed = compare(old_songs, new_songs)
 
-    print('-' * 10 + '\nPress 1 to update library. Otherwise close the window to exit')
-    update_library = input()
-    if update_library == '1':
-        update(new_songs)
-        print('Finished updating library!')
+    if changed:
+        if existed:
+            print('-' * 10 + '\nPress 1 to update library. Otherwise close the window to exit')
+            update_library = input()
+            if update_library == '1':
+                update(new_songs)
+                print('Finished updating library!')
+            else:
+                print('Done!')
+        else:
+            update(new_songs)
+            print('-' * 10 + '\nFinished updating library!')
     else:
-        print('Done!')
+        print('-' * 10 + '\nNothing changed. Done!')
 
 
 if __name__ == '__main__':
