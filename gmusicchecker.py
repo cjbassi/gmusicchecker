@@ -1,5 +1,4 @@
 from gmusicapi import Mobileclient
-import pickle
 import argparse
 import os
 
