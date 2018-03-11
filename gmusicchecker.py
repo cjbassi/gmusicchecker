@@ -46,8 +46,8 @@ def get_new_songs(library):
 
 def compare(old, new):
     """
-    Compares old library with new library and prints the differences.
-    Returns a bool telling if the songs are different.
+    Compares old library with new library and prints the missing songs.
+    Returns a bool telling if songs were removed.
     """
     changed = False
 
@@ -55,13 +55,7 @@ def compare(old, new):
     for song in old:
         if song not in new:
             changed = True
-            print('missing song: ' + song)
-
-    print('-' * 10 + '\nChecking newly added songs:')
-    for song in new:
-        if song not in old:
-            changed = True
-            print('new song added: ' + song)
+            print(song)
 
     return changed
 
