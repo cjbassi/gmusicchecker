@@ -40,8 +40,8 @@ def file_read_array(filename):
 def get_songs(library):
     new_songs = []
     for song in library:
-        title, artist, album, id = song['title'], song['artist'], song['album'], song['id']
-        new_songs.append(f'{artist} - {title} | ALBUM: {album} | ID: {id}')
+        title, artist, album = song['title'], song['artist'], song['album']
+        new_songs.append(f'{artist} - {title} | ALBUM: {album}')
     return new_songs
 
 
