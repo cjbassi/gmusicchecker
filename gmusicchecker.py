@@ -89,9 +89,9 @@ def main():
 
     if changed:
         if existed:
-            print('-' * 10 + '\nPress 1 to update library. Otherwise close the window to exit')
+            print('-' * 10 + '\nUpdate library? [y/n] ')
             update_library = input()
-            if update_library == '1':
+            if update_library == 'y':
                 update(new_songs)
                 print('Finished updating library!')
             else:
