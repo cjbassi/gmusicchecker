@@ -40,7 +40,7 @@ def get_new_songs(library):
     new_songs = []
     for song in library:
         title, artist, album, id = song['title'], song['artist'], song['album'], song['id']
-        new_songs.append(f'{title} artist: {artist} album: {album} id: {id}')
+        new_songs.append(f'{artist} - {title} | ALBUM: {album} | ID: {id}')
     return new_songs
 
 
