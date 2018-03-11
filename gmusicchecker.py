@@ -24,19 +24,20 @@ def touch_file(name):
     existed.
     """
     if not os.path.exists(name):
-        print(f'File \'{name}\' not found. Creating a new one.')
+        print(f'File \'{name}\' not found. Creating it.')
         with open(name, 'w'):
             pass
         return False
     return True
 
 
-def get_old_songs():
-    with open('library.txt', encoding='utf-8') as file:
+def file_read_array(filename):
+    """Reads each line of a file into an array."""
+    with open(filename, encoding='utf-8') as file:
         return [line.strip() for line in file]
 
 
-def get_new_songs(library):
+def get_songs(library):
     new_songs = []
     for song in library:
         title, artist, album, id = song['title'], song['artist'], song['album'], song['id']
@@ -44,27 +45,14 @@ def get_new_songs(library):
     return new_songs
 
 
-def compare(old, new):
+def file_write_array(filename, array):
     """
-    Compares old library with new library and prints the missing songs.
-    Returns a bool telling if songs were removed.
+    Clears a file, then writes each item item of the array as a line in the
+    file.
     """
-    changed = False
-
-    print('Checking missing songs:')
-    for song in old:
-        if song not in new:
-            changed = True
-            print(song)
-
-    return changed
-
-
-def update(new_songs):
-    """Overwrites 'library.txt' with new library"""
-    with open('library.txt', 'w', encoding='utf-8') as file:
-        for song in new_songs:
-            file.write(song + '\n')
+    with open(filename, 'w', encoding='utf-8') as file:
+        for i in array:
+            file.write(i + '\n')
 
 
 def main():
@@ -74,27 +62,20 @@ def main():
     api = authenticate(username, password)
     library = api.get_all_songs()
 
-    existed = touch_file('library.txt')
+    touch_file('library.txt')
 
-    old_songs = get_old_songs()
-    new_songs = get_new_songs(library)
+    old_songs = file_read_array('library.txt')
+    new_songs = get_songs(library)
 
-    changed = compare(old_songs, new_songs)
+    removed_songs = [song for song in old_songs if song not in new_songs]
 
-    if changed:
-        if existed:
-            print('-' * 10 + '\nUpdate library? [y/n] ')
-            update_library = input()
-            if update_library == 'y':
-                update(new_songs)
-                print('Finished updating library!')
-            else:
-                print('Done!')
-        else:
-            update(new_songs)
-            print('-' * 10 + '\nFinished updating library!')
-    else:
-        print('-' * 10 + '\nNothing changed. Done!')
+    print(str(len(removed_songs)) + ' songs removed.')
+
+    if len(removed_songs) > 0:
+        touch_file('removed_songs.txt')
+        file_write_array('removed_songs.txt', removed_songs)
+
+    file_write_array('library.txt', new_songs)
 
 
 if __name__ == '__main__':
