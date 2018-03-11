@@ -66,10 +66,9 @@ def main():
 
     old_songs = file_read_array('library.txt')
     new_songs = get_songs(library)
-
     removed_songs = [song for song in old_songs if song not in new_songs]
 
-    print(str(len(removed_songs)) + ' songs removed.')
+    print(str(len(removed_songs)) + ' ' + ('songs' if len(removed_songs) != 1 else 'song') + ' removed.')
 
     if len(removed_songs) > 0:
         touch_file('removed_songs.txt')
