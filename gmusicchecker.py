@@ -46,15 +46,21 @@ def authenticate(username, password):
 
 def get_songs(library):
     """Returns a new library of songs that only include artist, song, and album"""
-    return [{'artist': song['artist'], 'title': song['title'], 'album': song['album']} for song in library]
+    songs = []
+    for song in library:
+        title, artist, album = song['title'], song['artist'], song['album']
+        seconds = int(song['durationMillis']) // 1000
+        songs.append({'artist': artist, 'title': title, 'album': album, 'seconds': seconds})
+    return songs
 
 
 def write_removed_songs(removed_songs):
     removed_songs = sorted(removed_songs, key=lambda song: song['album'])
     with open('removed_songs.txt', 'w', encoding='utf-8') as file:
         for song in removed_songs:
-            title, artist, album = song['title'], song['artist'], song['album']
-            file.write(f'{artist} - {title} | {album}\n')
+            title, artist, album, seconds = song['title'], song['artist'], song['album'], song['seconds']
+            min, sec = seconds // 60, seconds % 60
+            file.write(f'{artist} - {title} | {album} | {min}:{sec:02}\n')
 
 
 def main():
