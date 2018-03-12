@@ -5,6 +5,10 @@ import argparse
 import json
 from gmusicapi import Mobileclient
 
+# filenames
+LIBRARY = 'gpm_library.json'
+REMOVED = 'gpm_removed_songs.txt'
+
 
 def touch_file(name):
     """
@@ -56,7 +60,7 @@ def get_songs(library):
 
 def write_removed_songs(removed_songs):
     removed_songs = sorted(removed_songs, key=lambda song: song['album'])
-    with open('removed_songs.txt', 'w', encoding='utf-8') as file:
+    with open(REMOVED, 'w', encoding='utf-8') as file:
         for song in removed_songs:
             title, artist, album, seconds = song['title'], song['artist'], song['album'], song['seconds']
             min, sec = seconds // 60, seconds % 60
@@ -70,20 +74,20 @@ def main():
     api = authenticate(username, password)
     library = api.get_all_songs()
 
-    existed = touch_file('library.json')
+    existed = touch_file(LIBRARY)
 
     new_songs = get_songs(library)
     if existed:
-        old_songs = file_read_json('library.json')
+        old_songs = file_read_json(LIBRARY)
         removed_songs = [song for song in old_songs if song not in new_songs]
 
         print(str(len(removed_songs)) + ' ' + ('songs' if len(removed_songs) != 1 else 'song') + ' removed.')
 
         if len(removed_songs) > 0:
-            touch_file('removed_songs.txt')
+            touch_file(REMOVED)
             write_removed_songs(removed_songs)
 
-    file_write_json('library.json', new_songs)
+    file_write_json(LIBRARY, new_songs)
     print('Updated library')
 
 

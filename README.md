@@ -26,4 +26,4 @@ python3 <(curl https://raw.githubusercontent.com/cjbassi/gmusicchecker/master/gm
 
 If you have 2-factor authentication (which you should :P) then you need to create an app-password [here](myaccount.google.com/apppasswords).
 
-The script will create a `library.json` file on first run, which it will update with your current library. Subsequent runs will check for any removed songs which it will write to `removed_songs.txt` and then update `library.json` again.
+The script will create a `gpm_library.json` file on first run, which it will update with your current library. Subsequent runs will check for any removed songs which it will write to `gpm_removed_songs.txt` and then update `gpm_library.json` again.
