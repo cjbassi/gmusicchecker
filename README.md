@@ -2,10 +2,20 @@
 
 This script checks your Google Play Music library for removed songs. Google is constantly updating its catalog and in the process removes older versions of songs from your library. However, it doesn't automatically add newer versions back to your library. This script creates a list of songs in your library on first run and compares the original list and new list on subsequent runs to let you know which songs have been removed.
 
-Requires [gmusicapi](https://github.com/simon-weber/gmusicapi) which you can install with:
+Requires [gmusicapi](https://github.com/simon-weber/gmusicapi) which you can install using either virtualenv or with:
+
 ```
-pip3 install gmusicapi
+pip3 install --user gmusicapi
 ```
+
+If you're getting an error about gmusicapi not being found after running the above command, then you need to configure your $PATH to support user installs. If you're on Linux (and possible OSX), you need to add:
+
+```
+export PATH=$PATH:~/.local/bin
+```
+
+to your shell config and reload your shell.
+
 
 ## Usage
 
