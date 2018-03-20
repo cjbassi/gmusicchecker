@@ -5,7 +5,6 @@ import argparse
 import json
 from gmusicapi import Mobileclient
 
-# filenames
 LIBRARY = 'gpm_library.json'
 REMOVED = 'gpm_removed_songs.txt'
 
