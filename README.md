@@ -19,19 +19,19 @@ to your shell config and reload your shell.
 
 ## Usage
 
-Run the script with your Google username and password as command line arguments.
+Run the script with your Google email and password as command line arguments.
 
 You can either `git clone` this repo and run the script like so:
 
 ```
 git clone https://github.com/cjbassi/gpm-library-checker
-./path/to/script/gpm-library-checker.py username password
+./path/to/script/gpm-library-checker.py email password
 ```
 
 Or you can run the script once-off by curling it directly to the python interpreter:
 
 ```
-python3 <(curl https://raw.githubusercontent.com/cjbassi/gpm-library-checker/master/gpm-library-checker.py) username password
+python3 <(curl https://raw.githubusercontent.com/cjbassi/gpm-library-checker/master/gpm-library-checker.py) email password
 ```
 
 If you have 2-factor authentication (which you should :P) then you need to create an app-password [here](myaccount.google.com/apppasswords).
