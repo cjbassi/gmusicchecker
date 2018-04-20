@@ -4,13 +4,13 @@ This script checks your Google Play Music library for removed songs. Google is c
 
 Requires [gmusicapi](https://github.com/simon-weber/gmusicapi) which you can install using either virtualenv or with:
 
-```
+```sh
 pip3 install --user gmusicapi
 ```
 
 If you're getting an error about gmusicapi not being found after running the above command, then you need to configure your $PATH to support user installs. If you're on Linux (and possible OSX), you need to add:
 
-```
+```sh
 export PATH=$PATH:~/.local/bin
 ```
 
@@ -23,14 +23,14 @@ Run the script with your Google email and password as command line arguments.
 
 You can either `git clone` this repo and run the script like so:
 
-```
+```sh
 git clone https://github.com/cjbassi/gpm-library-checker
 ./path/to/script/gpm-library-checker.py email password
 ```
 
 Or you can run the script once-off by curling it directly to the python interpreter:
 
-```
+```sh
 python3 <(curl https://raw.githubusercontent.com/cjbassi/gpm-library-checker/master/gpm-library-checker.py) email password
 ```
 
